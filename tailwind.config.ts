@@ -57,6 +57,33 @@ export default {
           border: "hsl(var(--sidebar-border))",
           ring: "hsl(var(--sidebar-ring))",
         },
+        bubble: {
+          client: "hsl(var(--bubble-client))",
+          "client-foreground": "hsl(var(--bubble-client-foreground))",
+          agent: "hsl(var(--bubble-agent))",
+          "agent-foreground": "hsl(var(--bubble-agent-foreground))",
+        },
+        trust: {
+          high: "hsl(var(--trust-high))",
+          mid: "hsl(var(--trust-mid))",
+          low: "hsl(var(--trust-low))",
+          critical: "hsl(var(--trust-critical))",
+        },
+        opt: {
+          empathetic: "hsl(var(--opt-empathetic))",
+          "empathetic-bg": "hsl(var(--opt-empathetic-bg))",
+          data: "hsl(var(--opt-data))",
+          "data-bg": "hsl(var(--opt-data-bg))",
+          hardsell: "hsl(var(--opt-hardsell))",
+          "hardsell-bg": "hsl(var(--opt-hardsell-bg))",
+          compliance: "hsl(var(--opt-compliance))",
+          "compliance-bg": "hsl(var(--opt-compliance-bg))",
+        },
+      },
+      backgroundImage: {
+        "gradient-trust-high": "var(--gradient-trust-high)",
+        "gradient-trust-mid": "var(--gradient-trust-mid)",
+        "gradient-trust-low": "var(--gradient-trust-low)",
       },
       borderRadius: {
         lg: "var(--radius)",

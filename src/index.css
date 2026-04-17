@@ -2,95 +2,104 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
-All colors MUST be HSL.
-*/
+/* ──────────────────────────────────────────────────────────────
+   Interactive Client Scenario — Design System
+   LINE-inspired messaging surface, warm and confident.
+   All colors are HSL.
+   ────────────────────────────────────────────────────────────── */
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    /* Surfaces */
+    --background: 36 38% 96%;            /* warm off-white chat backdrop */
+    --foreground: 220 25% 14%;
 
     --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    --card-foreground: 220 25% 14%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
+    --popover-foreground: 220 25% 14%;
 
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
+    /* Brand — LINE-ish but distinct: deep teal */
+    --primary: 168 76% 32%;
+    --primary-foreground: 0 0% 100%;
+    --primary-glow: 168 70% 45%;
 
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
+    --secondary: 210 30% 95%;
+    --secondary-foreground: 220 25% 14%;
 
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
+    --muted: 36 20% 92%;
+    --muted-foreground: 220 10% 45%;
 
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+    --accent: 168 60% 92%;
+    --accent-foreground: 168 76% 22%;
 
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive: 0 78% 56%;
+    --destructive-foreground: 0 0% 100%;
 
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
+    --border: 36 20% 88%;
+    --input: 36 20% 88%;
+    --ring: 168 76% 32%;
 
-    --radius: 0.5rem;
+    --radius: 1rem;
 
-    --sidebar-background: 0 0% 98%;
+    /* Chat bubbles */
+    --bubble-client: 0 0% 100%;
+    --bubble-client-foreground: 220 25% 14%;
+    --bubble-agent: 168 76% 32%;
+    --bubble-agent-foreground: 0 0% 100%;
 
-    --sidebar-foreground: 240 5.3% 26.1%;
+    /* Trust states */
+    --trust-high: 152 64% 42%;
+    --trust-mid: 42 96% 52%;
+    --trust-low: 12 84% 55%;
+    --trust-critical: 0 78% 52%;
 
-    --sidebar-primary: 240 5.9% 10%;
+    /* Option types */
+    --opt-empathetic: 168 70% 38%;
+    --opt-empathetic-bg: 168 60% 95%;
+    --opt-data: 215 80% 50%;
+    --opt-data-bg: 215 80% 96%;
+    --opt-hardsell: 18 84% 52%;
+    --opt-hardsell-bg: 18 84% 96%;
+    --opt-compliance: 280 50% 50%;
+    --opt-compliance-bg: 280 50% 96%;
 
-    --sidebar-primary-foreground: 0 0% 98%;
+    /* Effects */
+    --shadow-bubble: 0 1px 2px hsl(220 25% 14% / 0.06), 0 2px 8px hsl(220 25% 14% / 0.04);
+    --shadow-deck: 0 -8px 24px hsl(220 25% 14% / 0.08);
+    --shadow-glow: 0 0 0 4px hsl(var(--primary) / 0.15);
 
-    --sidebar-accent: 240 4.8% 95.9%;
+    --gradient-trust-high: linear-gradient(90deg, hsl(152 64% 48%), hsl(168 70% 45%));
+    --gradient-trust-mid: linear-gradient(90deg, hsl(42 96% 55%), hsl(36 96% 58%));
+    --gradient-trust-low: linear-gradient(90deg, hsl(12 84% 55%), hsl(0 78% 55%));
 
-    --sidebar-accent-foreground: 240 5.9% 10%;
-
-    --sidebar-border: 220 13% 91%;
-
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    --transition-smooth: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
   }
 
   .dark {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
+    --background: 220 22% 10%;
+    --foreground: 36 30% 94%;
+    --card: 220 22% 13%;
+    --card-foreground: 36 30% 94%;
+    --popover: 220 22% 13%;
+    --popover-foreground: 36 30% 94%;
+    --primary: 168 70% 45%;
+    --primary-foreground: 220 22% 10%;
+    --secondary: 220 18% 18%;
+    --secondary-foreground: 36 30% 94%;
+    --muted: 220 18% 16%;
+    --muted-foreground: 220 10% 65%;
+    --accent: 168 40% 22%;
+    --accent-foreground: 168 70% 80%;
+    --destructive: 0 78% 56%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 220 18% 20%;
+    --input: 220 18% 20%;
+    --ring: 168 70% 45%;
 
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
-
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
-
-    --primary: 210 40% 98%;
-    --primary-foreground: 222.2 47.4% 11.2%;
-
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
-
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
-
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
-
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
-
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 212.7 26.8% 83.9%;
-    --sidebar-background: 240 5.9% 10%;
-    --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 224.3 76.3% 48%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 3.7% 15.9%;
-    --sidebar-accent-foreground: 240 4.8% 95.9%;
-    --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    --bubble-client: 220 22% 16%;
+    --bubble-client-foreground: 36 30% 94%;
   }
 }
 
@@ -98,8 +107,48 @@ All colors MUST be HSL.
   * {
     @apply border-border;
   }
-
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground antialiased;
+    font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+  }
+}
+
+@layer utilities {
+  .shadow-bubble { box-shadow: var(--shadow-bubble); }
+  .shadow-deck { box-shadow: var(--shadow-deck); }
+
+  .animate-shake {
+    animation: shake 0.5s cubic-bezier(.36,.07,.19,.97) infinite;
+  }
+  @keyframes shake {
+    0%,100% { transform: translateX(0); }
+    20% { transform: translateX(-3px); }
+    40% { transform: translateX(3px); }
+    60% { transform: translateX(-2px); }
+    80% { transform: translateX(2px); }
+  }
+
+  .animate-bubble-in {
+    animation: bubble-in 0.35s cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+  @keyframes bubble-in {
+    from { opacity: 0; transform: translateY(8px) scale(0.96); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+  }
+
+  .animate-typing-dot {
+    animation: typing 1.2s infinite ease-in-out;
+  }
+  @keyframes typing {
+    0%, 60%, 100% { transform: translateY(0); opacity: 0.4; }
+    30% { transform: translateY(-4px); opacity: 1; }
+  }
+
+  .animate-pulse-ring {
+    animation: pulse-ring 1.6s ease-out infinite;
+  }
+  @keyframes pulse-ring {
+    0% { box-shadow: 0 0 0 0 hsl(var(--destructive) / 0.5); }
+    100% { box-shadow: 0 0 0 12px hsl(var(--destructive) / 0); }
   }
 }
