@@ -96,12 +96,12 @@ export function SummaryModal({ open, result, finalTrust, path, onReset }: Summar
           </ol>
         </div>
 
-        <DialogFooter>
+        <div className="mt-2">
           <Button onClick={onReset} className="w-full gap-2">
             <RotateCcw className="h-4 w-4" />
             Run Scenario Again
           </Button>
-        </DialogFooter>
+        </div>
       </DialogContent>
     </Dialog>
   );
