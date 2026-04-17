@@ -14,7 +14,142 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      agent_simulations: {
+        Row: {
+          agent_id: string | null
+          created_at: string
+          final_trust_score: number
+          result_status: string
+          scenario_id: string
+          simulation_id: string
+          turns_taken: number
+        }
+        Insert: {
+          agent_id?: string | null
+          created_at?: string
+          final_trust_score: number
+          result_status: string
+          scenario_id: string
+          simulation_id?: string
+          turns_taken?: number
+        }
+        Update: {
+          agent_id?: string | null
+          created_at?: string
+          final_trust_score?: number
+          result_status?: string
+          scenario_id?: string
+          simulation_id?: string
+          turns_taken?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "agent_simulations_scenario_id_fkey"
+            columns: ["scenario_id"]
+            isOneToOne: false
+            referencedRelation: "scenarios"
+            referencedColumns: ["scenario_id"]
+          },
+        ]
+      }
+      dialogue_nodes: {
+        Row: {
+          client_text: string
+          created_at: string
+          node_id: string
+          options_payload_json: Json
+          scenario_id: string
+        }
+        Insert: {
+          client_text: string
+          created_at?: string
+          node_id?: string
+          options_payload_json: Json
+          scenario_id: string
+        }
+        Update: {
+          client_text?: string
+          created_at?: string
+          node_id?: string
+          options_payload_json?: Json
+          scenario_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "dialogue_nodes_scenario_id_fkey"
+            columns: ["scenario_id"]
+            isOneToOne: false
+            referencedRelation: "scenarios"
+            referencedColumns: ["scenario_id"]
+          },
+        ]
+      }
+      scenarios: {
+        Row: {
+          created_at: string
+          scenario_id: string
+          scenario_title: string
+          starting_node_id: string
+        }
+        Insert: {
+          created_at?: string
+          scenario_id?: string
+          scenario_title: string
+          starting_node_id: string
+        }
+        Update: {
+          created_at?: string
+          scenario_id?: string
+          scenario_title?: string
+          starting_node_id?: string
+        }
+        Relationships: []
+      }
+      simulation_paths: {
+        Row: {
+          created_at: string
+          node_id: string
+          path_id: string
+          selected_option_index: number
+          simulation_id: string
+          step_index: number
+          time_to_decide_milliseconds: number
+        }
+        Insert: {
+          created_at?: string
+          node_id: string
+          path_id?: string
+          selected_option_index: number
+          simulation_id: string
+          step_index?: number
+          time_to_decide_milliseconds: number
+        }
+        Update: {
+          created_at?: string
+          node_id?: string
+          path_id?: string
+          selected_option_index?: number
+          simulation_id?: string
+          step_index?: number
+          time_to_decide_milliseconds?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "simulation_paths_node_id_fkey"
+            columns: ["node_id"]
+            isOneToOne: false
+            referencedRelation: "dialogue_nodes"
+            referencedColumns: ["node_id"]
+          },
+          {
+            foreignKeyName: "simulation_paths_simulation_id_fkey"
+            columns: ["simulation_id"]
+            isOneToOne: false
+            referencedRelation: "agent_simulations"
+            referencedColumns: ["simulation_id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
