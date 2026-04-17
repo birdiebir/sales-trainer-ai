@@ -59,7 +59,7 @@ export function SummaryModal({ open, result, finalTrust, path, onReset }: Summar
 
   return (
     <Dialog open={open}>
-      <DialogContent className="max-w-md" hideClose>
+      <DialogContent className="max-w-md [&>button]:hidden">
         <DialogHeader>
           <div className={cn("mx-auto mb-2 flex h-14 w-14 items-center justify-center rounded-full bg-muted", meta.tone)}>
             <Icon className="h-7 w-7" />
