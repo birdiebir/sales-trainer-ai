@@ -42,22 +42,26 @@ interface SimulationState {
 }
 
 export function useSimulation(scenario: Scenario) {
-  const [state, setState] = useState<SimulationState>(() => ({
-    trustScore: STARTING_TRUST,
-    currentNodeId: scenario.starting_node_id,
-    turnsTaken: 0,
-    messages: [
-      {
-        id: `m-${scenario.starting_node_id}`,
-        side: "client",
-        text: scenario.nodes[scenario.starting_node_id].client_text,
-      },
-    ],
-    path: [],
-    status: "running",
-    result: null,
-    secondsLeft: TURN_SECONDS,
-  }));
+  const [state, setState] = useState<SimulationState>(() => {
+    const startTs = Date.now();
+    return {
+      trustScore: STARTING_TRUST,
+      currentNodeId: scenario.starting_node_id,
+      turnsTaken: 0,
+      messages: [
+        {
+          id: `m-${scenario.starting_node_id}`,
+          side: "client",
+          text: scenario.nodes[scenario.starting_node_id].client_text,
+          timestamp: startTs,
+        },
+      ],
+      path: [],
+      status: "running",
+      result: null,
+      secondsLeft: TURN_SECONDS,
+    };
+  });
 
   const turnStartRef = useRef<number>(Date.now());
   const tickRef = useRef<number | null>(null);
