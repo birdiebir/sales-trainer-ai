@@ -14,6 +14,20 @@ export interface ChatMessage {
   id: string;
   side: "client" | "agent";
   text: string;
+  /** Absolute epoch ms — monotonically increasing across the conversation. */
+  timestamp: number;
+}
+
+/**
+ * Produces a realistic conversational delay in ms (30s–3min) so timestamps
+ * always march forward without looking mechanical.
+ */
+function nextTimestamp(prev: number, side: "client" | "agent"): number {
+  // Agents type faster than the client reflects; keep delay natural.
+  const minMs = side === "agent" ? 20_000 : 45_000;   // 20s / 45s
+  const maxMs = side === "agent" ? 90_000 : 180_000;  // 1.5m / 3m
+  const delay = Math.floor(minMs + Math.random() * (maxMs - minMs));
+  return prev + delay;
 }
 
 interface SimulationState {
