@@ -129,10 +129,13 @@ export function useSimulation(scenario: Scenario) {
           time_to_decide_ms: timeToDecide,
         };
 
+        const lastTs = s.messages[s.messages.length - 1]?.timestamp ?? Date.now();
+        const agentTs = nextTimestamp(lastTs, "agent");
         const agentMessage: ChatMessage = {
           id: `m-agent-${nextTurns}`,
           side: "agent",
           text: option.text,
+          timestamp: agentTs,
         };
 
         // End conditions in priority order
@@ -183,6 +186,7 @@ export function useSimulation(scenario: Scenario) {
           id: `m-client-${nextId}-${nextTurns}`,
           side: "client",
           text: nextNode.client_text,
+          timestamp: nextTimestamp(agentTs, "client"),
         };
 
         return {
