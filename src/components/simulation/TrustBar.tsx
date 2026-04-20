@@ -1,5 +1,6 @@
 import { cn } from "@/lib/utils";
 import { Shield, ShieldAlert, ShieldCheck } from "lucide-react";
+import { InfoTooltip } from "./InfoTooltip";
 
 interface TrustBarProps {
   score: number;
@@ -84,7 +85,12 @@ export function TrustBar({ score, clientName, avatarSrc, turnsRemaining }: Trust
               )}
             >
               <Icon className="h-3.5 w-3.5" />
-              {trust.label} · {Math.round(score)}
+              <span>{trust.label}</span>
+              <InfoTooltip
+                label="Client Trust"
+                description="A live read of how much the client trusts you right now. It rises when you acknowledge concerns and explain risks clearly, and falls with pressure tactics, jargon, or misleading claims. If it hits zero the client walks away."
+                className="text-current opacity-80 hover:opacity-100"
+              />
             </div>
           </div>
 
