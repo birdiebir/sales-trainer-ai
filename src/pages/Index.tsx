@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import clientAvatar from "@/assets/client-avatar.jpg";
+import { useNavigate, useParams } from "react-router-dom";
 import { TrustBar } from "@/components/simulation/TrustBar";
 import { ChatLog } from "@/components/simulation/ChatLog";
 import { ResponseDeck } from "@/components/simulation/ResponseDeck";
@@ -7,15 +7,15 @@ import { SummaryModal } from "@/components/simulation/SummaryModal";
 import { useSimulation } from "@/simulation/useSimulation";
 import { useScenarioLoader } from "@/simulation/useScenarioLoader";
 import { persistSimulation } from "@/simulation/persistSimulation";
-import { Loader2, AlertTriangle } from "lucide-react";
-
-const CLIENT_NAME = "Mrs. Tan";
-const SCENARIO_ID = "11111111-1111-1111-1111-111111111111";
+import { getClientAvatar } from "@/simulation/clientAvatars";
+import { AlertTriangle, ArrowLeft, Loader2 } from "lucide-react";
 
 const Index = () => {
-  // SEO basics
+  const { scenarioId = "" } = useParams();
+  const navigate = useNavigate();
+
   useEffect(() => {
-    document.title = "Interactive Client Scenario — Life Insurance Sales Sim";
+    document.title = "Client Meeting — Interactive Scenario";
     const desc =
       "Train sales judgment through a branching client dialogue. Mobile-first messaging UI with trust scoring and timed responses.";
     let meta = document.querySelector('meta[name="description"]');
@@ -25,17 +25,9 @@ const Index = () => {
       document.head.appendChild(meta);
     }
     meta.setAttribute("content", desc);
-
-    let canonical = document.querySelector('link[rel="canonical"]');
-    if (!canonical) {
-      canonical = document.createElement("link");
-      canonical.setAttribute("rel", "canonical");
-      document.head.appendChild(canonical);
-    }
-    canonical.setAttribute("href", window.location.origin + "/");
   }, []);
 
-  const { scenario, loading, error } = useScenarioLoader(SCENARIO_ID);
+  const { scenario, loading, error } = useScenarioLoader(scenarioId);
 
   if (loading) {
     return (
@@ -52,21 +44,33 @@ const Index = () => {
         <AlertTriangle className="h-8 w-8 text-destructive" />
         <h1 className="text-lg font-semibold">Couldn't load scenario</h1>
         <p className="max-w-sm text-sm text-muted-foreground">
-          {error ?? "Scenario not found in the database."}
+          {error ?? "Scenario not found."}
         </p>
+        <button
+          onClick={() => navigate("/")}
+          className="mt-2 rounded-full bg-primary px-4 py-2 text-sm font-medium text-primary-foreground"
+        >
+          Back to dashboard
+        </button>
       </main>
     );
   }
 
-  return <SimulationView scenario={scenario} />;
+  return <SimulationView scenario={scenario} onExit={() => navigate("/")} />;
 };
 
-function SimulationView({ scenario }: { scenario: NonNullable<ReturnType<typeof useScenarioLoader>["scenario"]> }) {
+function SimulationView({
+  scenario,
+  onExit,
+}: {
+  scenario: NonNullable<ReturnType<typeof useScenarioLoader>["scenario"]>;
+  onExit: () => void;
+}) {
   const sim = useSimulation(scenario);
   const [showSummary, setShowSummary] = useState(false);
   const persistedRef = useRef<string | null>(null);
+  const avatarSrc = getClientAvatar(scenario.scenario_id);
 
-  // Persist completed run + open summary modal
   useEffect(() => {
     if (sim.status !== "ended" || !sim.result) {
       setShowSummary(false);
@@ -95,21 +99,45 @@ function SimulationView({ scenario }: { scenario: NonNullable<ReturnType<typeof 
     sim.reset();
   };
 
+  // Once the simulation starts, leaving is destructive — confirm before exit.
+  const handleBackToDashboard = () => {
+    if (sim.status === "running") {
+      const ok = window.confirm(
+        "Leaving now will end this meeting and it will be logged as an incomplete run. Continue?",
+      );
+      if (!ok) return;
+    }
+    onExit();
+  };
+
   return (
     <main className="flex min-h-screen flex-col bg-background">
       <TrustBar
         score={sim.trustScore}
-        clientName={CLIENT_NAME}
-        avatarSrc={clientAvatar}
+        clientName={scenario.client_name ?? "Client"}
+        avatarSrc={avatarSrc}
         turnsRemaining={sim.turnsRemaining}
       />
 
       <h2 className="sr-only">{scenario.scenario_title}</h2>
 
+      {/* Exit only visible after the run ends — prevents mid-meeting abandonment UX */}
+      {sim.status !== "running" && (
+        <div className="mx-auto w-full max-w-2xl px-4 pt-3">
+          <button
+            onClick={handleBackToDashboard}
+            className="inline-flex items-center gap-1.5 text-[12px] font-medium text-muted-foreground transition-colors hover:text-foreground"
+          >
+            <ArrowLeft className="h-3.5 w-3.5" />
+            Back to dashboard
+          </button>
+        </div>
+      )}
+
       <ChatLog
         messages={sim.messages}
-        avatarSrc={clientAvatar}
-        clientName={CLIENT_NAME}
+        avatarSrc={avatarSrc}
+        clientName={scenario.client_name ?? "Client"}
       />
 
       {sim.currentNode && sim.status === "running" && (
@@ -127,6 +155,7 @@ function SimulationView({ scenario }: { scenario: NonNullable<ReturnType<typeof 
         finalTrust={sim.trustScore}
         path={sim.path}
         onReset={handleReset}
+        onExit={onExit}
       />
     </main>
   );
