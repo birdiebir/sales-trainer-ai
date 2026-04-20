@@ -86,19 +86,34 @@ export type Database = {
       }
       scenarios: {
         Row: {
+          client_background: string
+          client_name: string
           created_at: string
+          difficulty: string
+          estimated_minutes: number
+          objective: string
           scenario_id: string
           scenario_title: string
           starting_node_id: string
         }
         Insert: {
+          client_background?: string
+          client_name?: string
           created_at?: string
+          difficulty?: string
+          estimated_minutes?: number
+          objective?: string
           scenario_id?: string
           scenario_title: string
           starting_node_id: string
         }
         Update: {
+          client_background?: string
+          client_name?: string
           created_at?: string
+          difficulty?: string
+          estimated_minutes?: number
+          objective?: string
           scenario_id?: string
           scenario_title?: string
           starting_node_id?: string
