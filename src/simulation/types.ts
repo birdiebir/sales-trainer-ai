@@ -18,6 +18,7 @@ export interface Scenario {
   scenario_id: string;
   scenario_title: string;
   starting_node_id: string;
+  client_name?: string;
   nodes: Record<string, DialogueNode>;
 }
 

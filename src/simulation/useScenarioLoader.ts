@@ -12,6 +12,7 @@ interface ScenarioRow {
   scenario_id: string;
   scenario_title: string;
   starting_node_id: string;
+  client_name: string | null;
 }
 
 interface UseScenarioResult {
@@ -40,7 +41,7 @@ export function useScenarioLoader(scenarioId: string): UseScenarioResult {
       const [scenarioRes, nodesRes] = await Promise.all([
         supabase
           .from("scenarios")
-          .select("scenario_id, scenario_title, starting_node_id")
+          .select("scenario_id, scenario_title, starting_node_id, client_name")
           .eq("scenario_id", scenarioId)
           .maybeSingle(),
         supabase
@@ -83,6 +84,7 @@ export function useScenarioLoader(scenarioId: string): UseScenarioResult {
         scenario_id: scenarioRow.scenario_id,
         scenario_title: scenarioRow.scenario_title,
         starting_node_id: scenarioRow.starting_node_id,
+        client_name: scenarioRow.client_name ?? undefined,
         nodes,
       });
       setLoading(false);

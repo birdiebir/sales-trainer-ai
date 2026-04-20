@@ -16,6 +16,7 @@ interface SummaryModalProps {
   finalTrust: number;
   path: PathStep[];
   onReset: () => void;
+  onExit?: () => void;
 }
 
 const RESULT_META: Record<ResultStatus, { title: string; subtitle: string; icon: React.ElementType; tone: string; }> = {
@@ -51,7 +52,7 @@ const RESULT_META: Record<ResultStatus, { title: string; subtitle: string; icon:
   },
 };
 
-export function SummaryModal({ open, result, finalTrust, path, onReset }: SummaryModalProps) {
+export function SummaryModal({ open, result, finalTrust, path, onReset, onExit }: SummaryModalProps) {
   if (!result) return null;
   const meta = RESULT_META[result];
   const Icon = meta.icon;
@@ -95,11 +96,16 @@ export function SummaryModal({ open, result, finalTrust, path, onReset }: Summar
           </ol>
         </div>
 
-        <div className="mt-2">
+        <div className="mt-2 flex flex-col gap-2">
           <Button onClick={onReset} className="w-full gap-2">
             <RotateCcw className="h-4 w-4" />
             Run Scenario Again
           </Button>
+          {onExit && (
+            <Button onClick={onExit} variant="outline" className="w-full">
+              Back to Dashboard
+            </Button>
+          )}
         </div>
       </DialogContent>
     </Dialog>
